@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Phishing URL Detector</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Phishing URL Detector</h1>
+            <p class="subtitle">Analyze URLs for potential phishing indicators</p>
+        </header>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> Educational phishing awareness tool. 
+            Do not enter sensitive information. This tool analyzes URL structure only 
+            and does not guarantee detection of all phishing attempts.
+        </div>
+
+        <main>
+            <form id="check-form">
+                <div class="input-group">
+                    <label for="url-input">Enter URL to analyze:</label>
+                    <input 
+                        type="text" 
+                        id="url-input" 
+                        name="url" 
+                        placeholder="https://example.com/path" 
+                        autocomplete="off"
+                        maxlength="2048"
+                        required
+                    >
+                </div>
+                <button type="submit" id="check-btn">
+                    <span class="btn-text">Check URL</span>
+                    <span class="btn-loading" hidden>Analyzing...</span>
+                </button>
+            </form>
+
+            <div id="results" class="results hidden">
+                <h2>Analysis Results</h2>
+                
+                <div class="score-container">
+                    <div class="risk-meter">
+                        <div class="meter-fill" id="meter-fill"></div>
+                    </div>
+                    <div class="score-display">
+                        <span class="score-number" id="score-number">0</span>
+                        <span class="score-label">/ 100</span>
+                    </div>
+                    <div class="risk-level" id="risk-level">Low</div>
+                </div>
+
+                <div class="normalized-url">
+                    <strong>Analyzed URL:</strong>
+                    <code id="normalized-url"></code>
+                </div>
+
+                <div class="reasons-container">
+                    <h3>Findings</h3>
+                    <ul id="reasons-list"></ul>
+                </div>
+
+                <div class="intel-container">
+                    <h3>Threat Intelligence Sources</h3>
+                    <div class="intel-sources" id="intel-sources">
+                        <!-- Populated by JS -->
+                    </div>
+                    <p class="intel-note" id="intel-note"></p>
+                </div>
+
+                <div class="signals-container">
+                    <h3>Detection Signals Checked</h3>
+                    <div class="signals-list" id="signals-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="error hidden">
+                <h3>Error</h3>
+                <p id="error-message"></p>
+            </div>
+        </main>
+
+        <footer>
+            <p>Phishing URL Detector v0.1.0 | For educational purposes only</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

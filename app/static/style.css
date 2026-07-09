@@ -1,0 +1,444 @@
+/* Phishing URL Detector - Cyber Dark Theme */
+
+:root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-tertiary: #1f2937;
+    --text-primary: #e5e7eb;
+    --text-secondary: #9ca3af;
+    --accent-cyan: #06b6d4;
+    --accent-green: #10b981;
+    --accent-yellow: #f59e0b;
+    --accent-red: #ef4444;
+    --border-color: #374151;
+    --code-bg: #1e293b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.disclaimer {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid var(--accent-yellow);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--accent-yellow);
+}
+
+main {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
+}
+
+.input-group input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent-cyan), #0891b2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+}
+
+button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn-loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Results section */
+.results {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.results.hidden,
+.error.hidden {
+    display: none;
+}
+
+.results h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-cyan);
+}
+
+.score-container {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.risk-meter {
+    width: 100%;
+    height: 12px;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.meter-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 6px;
+    transition: width 0.5s ease-out, background-color 0.3s;
+}
+
+.meter-fill.low {
+    background: linear-gradient(90deg, var(--accent-green), #34d399);
+}
+
+.meter-fill.medium {
+    background: linear-gradient(90deg, var(--accent-yellow), #fbbf24);
+}
+
+.meter-fill.high {
+    background: linear-gradient(90deg, var(--accent-red), #f87171);
+}
+
+.score-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.score-number {
+    color: var(--text-primary);
+}
+
+.score-label {
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.risk-level {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.risk-level.low {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--accent-green);
+}
+
+.risk-level.medium {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--accent-yellow);
+}
+
+.risk-level.high {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--accent-red);
+}
+
+.normalized-url {
+    background: var(--code-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    word-break: break-all;
+}
+
+.normalized-url code {
+    color: var(--accent-cyan);
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.875rem;
+}
+
+.reasons-container h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+}
+
+#reasons-list {
+    list-style: none;
+}
+
+#reasons-list li {
+    padding: 0.75rem 1rem;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border-left: 3px solid var(--accent-cyan);
+    font-size: 0.9rem;
+}
+
+#reasons-list li.warning {
+    border-left-color: var(--accent-yellow);
+}
+
+#reasons-list li.danger {
+    border-left-color: var(--accent-red);
+}
+
+#reasons-list li.safe {
+    border-left-color: var(--accent-green);
+}
+
+/* Error section */
+.error {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--accent-red);
+    border-radius: 8px;
+}
+
+.error h3 {
+    color: var(--accent-red);
+    margin-bottom: 0.5rem;
+}
+
+.error p {
+    color: var(--text-secondary);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    main {
+        padding: 1.5rem;
+    }
+
+    .score-display {
+        font-size: 2rem;
+    }
+}
+
+/* Threat Intelligence Section */
+.intel-container {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.intel-container h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.intel-sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.intel-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.intel-source .status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.intel-source .status-indicator.hit {
+    background: var(--accent-red);
+    box-shadow: 0 0 6px var(--accent-red);
+}
+
+.intel-source .status-indicator.clear {
+    background: var(--accent-green);
+}
+
+.intel-source .status-indicator.unavailable {
+    background: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.intel-source .status-indicator.disabled {
+    background: var(--text-secondary);
+    opacity: 0.4;
+}
+
+.intel-source .status-indicator.blocked_by_robots {
+    background: var(--accent-yellow);
+    opacity: 0.7;
+}
+
+.intel-source .source-name {
+    color: var(--text-primary);
+}
+
+.intel-source .source-status {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.intel-source .source-status.status-hit {
+    color: var(--accent-red);
+}
+
+.intel-source .source-status.status-clear {
+    color: var(--accent-green);
+}
+
+.intel-source .source-status.status-disabled {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+.intel-source .source-status.status-blocked {
+    color: var(--accent-yellow);
+}
+
+.intel-source .source-status.status-unavailable {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
+.intel-note {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Signals Section */
+.signals-container {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.signals-container h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.signals-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.signal-tag {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-family: 'Fira Code', 'Consolas', monospace;
+}
